@@ -1,0 +1,129 @@
+<meta charset="utf-8" />
+<title>jQuery Connections</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="jquery.connections.js"></script>
+<script>
+	$(document).ready(function() {
+		$('h1').connections({ with: 'div:first', class: 'first' });
+		$('div.styles .anchor').connections({ with: 'div.styles li:nth-child(1)', within: '.styles', tag: 'inner', css: { zIndex: -1 } });
+		$('div.styles .anchor').connections({ with: 'div.styles li:nth-child(2)', within: '.styles', tag: 'inner', css: { color: '#500' } });
+		$('div.styles .anchor').connections({ with: 'div.styles li:nth-child(3)', within: '.styles', tag: 'inner', css: { borderWidth: 0.5 } });
+		$('div.styles .anchor').connections({ with: 'div.styles li:nth-child(4)', within: '.styles', tag: 'inner', css: { borderRadius: 0 } });
+		$('div.styles .anchor').connections({ with: 'div.styles li:nth-child(5)', within: '.styles', tag: 'inner', css: { borderStyle: 'double' } });
+		$('div.positioning .anchor').connections({ with: 'div.positioning li', tag: 'inner' });
+		$('p, div').connections();
+		$('connection:odd').addClass('odd');
+		var connections = $('connection, inner');
+		setInterval(function() { connections.connections('update') }, 100);
+	});
+</script>
+<style>
+	html {
+		background: #f4f4f4;
+	}
+	* {
+		font-family: sans-serif;
+	}
+	h1 {
+		display: table;
+	}
+	p, div {
+		background: rgba(255, 255, 255, 0.7);
+		float: left;
+		min-width: 4em;
+		min-height: 3em;
+		max-width: 29ex;
+		margin: 3em;
+		padding: 1em;
+		border: 1px solid rgba(0, 0, 0, 0.2);
+		border-radius: 0.5em;
+		box-shadow: 5px 5px 5px rgba(0,0,0,0.2);
+	}
+	li, pre {
+		border-radius: 0.5em;
+		color: white;
+		background: #668;
+		display: block;
+		margin: 0.3em 0 0 0;
+		padding: 0.3em 1em;
+	}
+	pre {
+		font: 0.9em monospace;
+		font-weight: bold;
+		background: #ddd;
+		color: #555;
+	}
+	br {
+		clear: both;
+	}
+	connection {
+		z-index: -1;
+		border: 3px solid;
+		border-radius: 15em;
+		color: rgba(0, 0, 0, 0.5);
+	}
+	connection.odd {
+		border-radius: 100%;
+	}
+	connection.first {
+		color: black;
+		border: 5px dotted;
+	}
+	inner {
+		border: 4px solid;
+		border-radius: 1em;
+		color: #668;
+	}
+	.anchor {
+		display: block;
+		width: 1px;
+		position: relative;
+		top: 0.2em;
+		left: 1em;
+	}
+</style>
+<h1>jQuery Connections</h1>
+<div>
+	Adds lines between block elements using CSS borders.
+	<pre>
+$('div.box').connections();</pre>
+</div>
+<div class='styles'>
+	Connections are separate elements that can be styled individually. Examples:
+	<span class='anchor'></span>
+	<ul>
+		<li>Z-index</li>
+		<li>Color</li>
+		<li>Width</li>
+		<li>Radius</li>
+		<li>Style</li>
+	</ul>
+	<pre>
+$('#start').connections({
+  with: '#end',
+  class: 'related'
+});</pre>
+</div>
+<br />
+<div class='positioning'>
+	Dynamic repositioning is optional. Update strategies are not constrained by the plugin. Ideas:
+	<span class='anchor'></span>
+	<ul>
+		<li>Full/partial/round robin</li>
+		<li>On interval/resize/drag event</li>
+	</ul>
+	<pre>
+var c = $('connections');
+setInterval(function() {
+  c.connections('update');
+}, 500);</pre>
+</div>
+<div>
+	TBD/Bugs
+	<ul>
+		<li>Wiki</li>
+		<li>DOM insertion order</li>
+		<li>Straight line position for different sized blocks</li>
+		<li>...</li>
+	</ul>
+</div>

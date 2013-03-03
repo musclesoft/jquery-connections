@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>jQuery connections</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+<script type="text/javascript" src="http://creativecouple.github.com/jquery-timing/jquery-timing.min.js"></script>
+<script type="text/javascript" src="../jquery.connections.js"></script>
+<style>
+.draggable { -width: 20%;
+    	background: #deb; line-height: 40px; padding: 15px; float: left; margin: 1em; border: 1px dotted;
+    	box-shadow: 2px 2px 4px rgba(0,0,0,0.5);}
+* {user-select: none;-ms-user-select:none;}
+</style>
+
+    <style>
+    .demo {
+    	border:5px double;
+    	-background:yellow;
+    	-z-index:1;
+    	display:table;
+    	border-radius:90px;
+    	-pointer-events:none;
+    	color: rgba(0,0,0,0.7);
+    }
+    .demo:hover {
+    	color:#55f;
+    }
+    .demo2 {
+    	border:3px dotted #051;
+    	opacity: 0.5;
+    	z-index:1;
+    	border-radius:100%;
+    	pointer-events:none;
+    }
+    .fast {
+    	border:3px solid #051;
+    	opacity: 0.5;
+    	z-index:1;
+    	border-radius:100%;
+    	pointer-events:none;
+    }
+    .demo3 {
+    	border:7px dashed #951;
+    	opacity: 0.5;
+    	z-index:1;
+    	pointer-events:none;
+    	border-radius:21px;
+    }
+    .demo span {
+    	z-index: 1;
+    	background:black;
+    	color: white;
+    	opacity:0.7;
+    	position: absolute;
+    	display:block;
+    	margin: auto;
+    	padding: 0.3em 0.6em;
+    	border-radius:10px;
+    	box-shadow: 5px 5px 5px rgba(0,0,0,0.5);
+    }
+    .demo:hover span {
+    	background: #55f;
+    	opacity:1;
+    }
+    .connection-border-right span {
+    	left: 1em;
+    }
+    .connection-border-left span {
+    	right: 1em;
+    }
+    .connection-border-top span {
+    	top: 1em;
+    }
+    .connection-border-bottom span {
+    	bottom: 1em;
+    }
+    </style>
+
+    <script type="text/JavaScript">
+    </script>
+
+	<script>
+	$(function() {
+		$( ".draggable" ).draggable();
+	});
+	</script>
+    <script type="text/JavaScript">
+    $(document).ready(function() {
+	//	$('body').c_onnect("#draggable3", "#draggable5", {tag: 'd', class: 'demo2'});
+	//	$('body').c_onnect("#draggable1", "#draggable4", {tag: 'd', class: 'demo3'});
+		$('#draggable2').connections({with: '.draggable', class: 'demo'});
+		$(".draggable").connections({class: 'fast'});
+	//	$('.draggable').c_onnect(".draggable", ".draggable", {tag: 'd', class: 'demo3'});
+		$('.demo').html(function(i) { return '<span>Line&nbsp;' + (13 * i + 78) + '</span>' });
+	/*	$('.draggable').on('drag', function() {
+		    var node = $(this);
+			setTimeout(function() { node.connections('update') }, 0);
+        });*/
+		var d=$('connection');
+		d.repeat().each($).wait(0).connections('update');
+	//	d.repeat().wait(0).connections('update');
+    //    setInterval(function() { d.connections('update') }, 1200);
+
+    });
+    </script>
+
+</head>
+<body>
+<button onclick="$('.draggable:odd').toggle()">toggle</button>
+<button onclick="$('.draggable:first').remove()">drop</button>
+<br style="clear: both;" />
+<div id="draggable1" class="draggable ui-widget-content">
+<p>Drag me around</p>
+</div>
+<div id="draggable2" class="draggable ui-widget-content">
+<p>Drag me around</p>
+</div>
+<div id="draggable3" class="draggable ui-widget-content">
+<p>Drag me around</p><p>Drag me around</p>
+</div>
+<br style="clear: both;" />
+<div id="draggable4" class="draggable ui-widget-content">
+<p>Drag me around</p>
+</div>
+<div id="draggable5" class="draggable ui-widget-content">
+<p>Drag me around</p><p>Drag me around</p><p>Drag me around</p>
+</div>
+<div id="draggable6" class="draggable ui-widget-content">
+<p>Drag me around</p>
+</div>
+<div id="draggable7" class="draggable ui-widget-content">
+<p>Drag me around</p>
+</div>
+</body>
+</html>

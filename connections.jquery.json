@@ -1,0 +1,25 @@
+{
+	"name": "connections",
+	"title": "jQuery Connections",
+	"version": "0.0.1",
+	"description": "jQuery plugin for adding connecting lines between block elements by using CSS borders.",
+	"keywords": [
+		"connect",
+		"line",
+		"graph"
+	],
+	"author": {
+		"name": "Diamond/Musclesoft Crew"
+	},
+	"licenses": [
+	{
+		"type": "MIT",
+		"url": "http://opensource.org/licenses/MIT"
+	}
+	],
+	"bugs": "https://github.com/musclesoft/jquery-connections/issues",
+	"homepage": "https://github.com/musclesoft/jquery-connections",
+	"dependencies": {
+		"jquery": ">=1.9"
+	}
+}
