@@ -4,13 +4,13 @@
 <script src="jquery.connections.js"></script>
 <script>
 	$(document).ready(function() {
-		$('h1').connections({ with: 'div:first', class: 'first' });
-		$('div.styles .anchor').connections({ with: 'div.styles li:nth-child(1)', within: '.styles', tag: 'inner', css: { zIndex: -1 } });
-		$('div.styles .anchor').connections({ with: 'div.styles li:nth-child(2)', within: '.styles', tag: 'inner', css: { color: '#500' } });
-		$('div.styles .anchor').connections({ with: 'div.styles li:nth-child(3)', within: '.styles', tag: 'inner', css: { borderWidth: 0.5 } });
-		$('div.styles .anchor').connections({ with: 'div.styles li:nth-child(4)', within: '.styles', tag: 'inner', css: { borderRadius: 0 } });
-		$('div.styles .anchor').connections({ with: 'div.styles li:nth-child(5)', within: '.styles', tag: 'inner', css: { borderStyle: 'double' } });
-		$('div.positioning .anchor').connections({ with: 'div.positioning li', tag: 'inner' });
+		$('h1').connections({ to: 'div:first', 'class': 'first' });
+		$('div.styles .anchor').connections({ to: 'div.styles li:nth-child(1)', within: '.styles', tag: 'inner', css: { zIndex: -1 } });
+		$('div.styles .anchor').connections({ to: 'div.styles li:nth-child(2)', within: '.styles', tag: 'inner', css: { color: '#500' } });
+		$('div.styles .anchor').connections({ to: 'div.styles li:nth-child(3)', within: '.styles', tag: 'inner', css: { borderWidth: 0.5 } });
+		$('div.styles .anchor').connections({ to: 'div.styles li:nth-child(4)', within: '.styles', tag: 'inner', css: { borderRadius: 0 } });
+		$('div.styles .anchor').connections({ to: 'div.styles li:nth-child(5)', within: '.styles', tag: 'inner', css: { borderStyle: 'double' } });
+		$('div.positioning .anchor').connections({ to: 'div.positioning li', tag: 'inner' });
 		$('p, div').connections();
 		$('connection:odd').addClass('odd');
 		var connections = $('connection, inner');
@@ -28,6 +28,7 @@
 		display: table;
 	}
 	p, div {
+		background: rgb(255, 255, 255);
 		background: rgba(255, 255, 255, 0.7);
 		float: left;
 		min-width: 4em;
@@ -35,12 +36,13 @@
 		max-width: 29ex;
 		margin: 3em;
 		padding: 1em;
+		border: 1px solid rgb(200, 200, 200);
 		border: 1px solid rgba(0, 0, 0, 0.2);
-		border-radius: 0.5em;
+		border-radius: 16px;
 		box-shadow: 5px 5px 5px rgba(0,0,0,0.2);
 	}
 	li, pre {
-		border-radius: 0.5em;
+		border-radius: 6px;
 		color: white;
 		background: #668;
 		display: block;
@@ -60,6 +62,7 @@
 		z-index: -1;
 		border: 3px solid;
 		border-radius: 15em;
+		color: rgb(128, 128, 128);
 		color: rgba(0, 0, 0, 0.5);
 	}
 	connection.odd {
@@ -71,7 +74,7 @@
 	}
 	inner {
 		border: 4px solid;
-		border-radius: 1em;
+		border-radius: 16px;
 		color: #668;
 	}
 	.anchor {
@@ -80,6 +83,13 @@
 		position: relative;
 		top: 0.2em;
 		left: 1em;
+	}
+	.more {
+		float: right;
+		font-weight: bold;
+	}
+	a {
+		color: #668!important;
 	}
 </style>
 <h1>jQuery Connections</h1>
@@ -100,8 +110,8 @@ $('div.box').connections();</pre>
 	</ul>
 	<pre>
 $('#start').connections({
-  with: '#end',
-  class: 'related'
+  to: '#end',
+  'class': 'related'
 });</pre>
 </div>
 <br />
@@ -113,17 +123,16 @@ $('#start').connections({
 		<li>On interval/resize/drag event</li>
 	</ul>
 	<pre>
-var c = $('connections');
+var c = $('connection');
 setInterval(function() {
   c.connections('update');
 }, 500);</pre>
 </div>
-<div>
-	TBD/Bugs
-	<ul>
-		<li>Wiki</li>
-		<li>DOM insertion order</li>
-		<li>Straight line position for different sized blocks</li>
-		<li>...</li>
-	</ul>
+<div class='more'>
+	Learn more<br />
+	<br />
+	<a href='https://github.com/musclesoft/jquery-connections/wiki'>Wiki</a><br />
+	<a href='https://github.com/musclesoft/jquery-connections'>Github</a><br />
+	<a href='http://opensource.org/licenses/MIT'>MIT license</a>
 </div>
+<br />

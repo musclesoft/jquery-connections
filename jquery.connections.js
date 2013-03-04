@@ -4,15 +4,38 @@
 			return updateConnections(this);
 		} else {
 			options = $.extend({
+				'class': 'connection',
 				css: {},
-				of: this,
+				from: this,
 				tag: 'connection',
-				with: this,
-				within: ':root',
+				to: this,
+				within: ':root'
 			}, options);
 			connect(options);
 			return this;
 		}
+	};
+
+	var connect = function(options) {
+		var tag = options.tag;
+		var end1 = $(options.from);
+		var end2 = $(options.to);
+		var within = $(options.within);
+		delete options.tag;
+		delete options.from;
+		delete options.to;
+		delete options.within;
+		within.each(function() {
+			var container = this;
+			var done = new Array();
+			end1.each(function() {
+				var node = this;
+				done.push(this);
+				end2.not(done).each(function() {
+					createConnection(container, node, this, tag, options);
+				});
+			});
+		});
 	};
 
 	var createConnection = function(container, node1, node2, tag, options) {
@@ -141,28 +164,6 @@
 				width(width - border_w).
 				height(height - border_h);
 	}
-
-	var connect = function(options) {
-		var tag = options.tag;
-		var end1 = $(options.of);
-		var end2 = $(options.with);
-		var within = $(options.within);
-		delete options.tag;
-		delete options.of;
-		delete options.with;
-		delete options.within;
-		within.each(function() {
-			var container = this;
-			var done = new Array();
-			end1.each(function() {
-				var node = this;
-				done.push(this);
-				end2.not(done).each(function() {
-					createConnection(container, node, this, tag, options);
-				});
-			});
-		});
-	};
 
 	var updateConnections = function(elements) {
 		return elements.each(function() {

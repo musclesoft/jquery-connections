@@ -22,6 +22,7 @@
     	display:table;
     	border-radius:90px;
     	-pointer-events:none;
+    	color: rgb(200,200,200);
     	color: rgba(0,0,0,0.7);
     }
     .demo:hover {
@@ -88,11 +89,11 @@
 	</script>
     <script type="text/JavaScript">
     $(document).ready(function() {
-	//	$('body').c_onnect("#draggable3", "#draggable5", {tag: 'd', class: 'demo2'});
-	//	$('body').c_onnect("#draggable1", "#draggable4", {tag: 'd', class: 'demo3'});
-		$('#draggable2').connections({with: '.draggable', class: 'demo'});
-		$(".draggable").connections({class: 'fast'});
-	//	$('.draggable').c_onnect(".draggable", ".draggable", {tag: 'd', class: 'demo3'});
+	//	$('body').c_onnect("#draggable3", "#draggable5", {tag: 'd', 'class': 'demo2'});
+	//	$('body').c_onnect("#draggable1", "#draggable4", {tag: 'd', 'class': 'demo3'});
+		$('#draggable2').connections({to: '.draggable', 'class': 'demo'});
+		$(".draggable").connections({'class': 'fast'});
+	//	$('.draggable').c_onnect(".draggable", ".draggable", {tag: 'd', 'class': 'demo3'});
 		$('.demo').html(function(i) { return '<span>Line&nbsp;' + (13 * i + 78) + '</span>' });
 	/*	$('.draggable').on('drag', function() {
 		    var node = $(this);
@@ -108,8 +109,8 @@
 
 </head>
 <body>
-<button onclick="$('.draggable:odd').toggle()">toggle</button>
-<button onclick="$('.draggable:first').remove()">drop</button>
+<button onclick="$('.draggable:odd').toggle()">Toggle odd</button>
+<button onclick="$('.draggable:visible:first').remove()">Remove 1st</button>
 <br style="clear: both;" />
 <div id="draggable1" class="draggable ui-widget-content">
 <p>Drag me around</p>

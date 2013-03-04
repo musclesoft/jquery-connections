@@ -1,11 +1,13 @@
 {
 	"name": "connections",
 	"title": "jQuery Connections",
-	"version": "0.0.2",
-	"description": "jQuery plugin for adding connecting lines between block elements by using CSS borders.",
+	"version": "0.1.0",
+	"description": "A jQuery plugin for adding stylable connecting lines between block elements.",
 	"keywords": [
 		"connect",
 		"line",
+		"border",
+		"style",
 		"graph"
 	],
 	"author": {
