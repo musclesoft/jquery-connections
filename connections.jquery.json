@@ -19,7 +19,6 @@
 	],
 	"bugs": "https://github.com/musclesoft/jquery-connections/issues",
 	"demo": "http://musclesoft.github.com/jquery-connections/",
-	"download": "http://musclesoft.github.com/jquery-connections/jquery.connections.js",
 	"homepage": "https://github.com/musclesoft/jquery-connections",
 	"dependencies": {
 		"jquery": ">=1.9"
