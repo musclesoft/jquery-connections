@@ -6,6 +6,7 @@
 			-moz-linear-gradient(-90deg, #4c4 1px, #fff 1px);
 		background-size: 10px 10px;
 		background-position: 5px 5px;
+		font: 10px sans-serif;
 	}
 	html, body {
 		padding: 5px;
@@ -20,7 +21,7 @@
 		background: #ddd;
 		padding: 0;
 	}
-	.test {
+	.testcase {
 		background: red;
 		border-radius: 3px;
 		width: 0px;
@@ -29,9 +30,8 @@
 		margin: 2px 0 0 2px;
 		position: absolute;
 	}
-	.test:before {
+	.testcase:before {
 		content: attr(title);
-		font: 10px sans-serif;
 		line-height: 1em;
 		clear: both;
 		display: inline-block;
@@ -84,7 +84,9 @@
 		<td/>
 		<td class="diagonal" />
 </table>
-<div class="test" style="left:60px;top:40px;width:40px" title="left to right"></div>
-<div class="test" style="left:40px;top:60px;height:40px" title="top to bottom"></div>
-<div class="test" style="left:270px;top:60px;width:20px" title="small bottom to large top"></div>
-<div class="test" style="left:300px;top:70px;height:20px" title="small left to large right"></div>
+<div class="testcase" style="left:60px;top:40px;width:40px" title="left to right"></div>
+<div class="testcase" style="left:40px;top:60px;height:40px" title="top to bottom"></div>
+<div class="testcase" style="left:270px;top:60px;width:20px" title="small bottom to large top"></div>
+<div class="testcase" style="left:300px;top:70px;height:20px" title="small left to large right"></div>
+<h1>jQuery Connections Test Matrix</h1>
+red areas indicate failure

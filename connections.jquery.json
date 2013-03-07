@@ -1,14 +1,15 @@
 {
 	"name": "connections",
 	"title": "jQuery Connections",
-	"version": "0.1.0",
-	"description": "A jQuery plugin for adding stylable connecting lines between block elements.",
+	"version": "0.2.0",
+	"description": "Add stylable lines connecting page elements. Handy for visualizing relations and graph edges.",
 	"keywords": [
-		"connect",
-		"line",
 		"border",
-		"style",
-		"graph"
+		"connect",
+		"edge",
+		"graph",
+		"line",
+		"style"
 	],
 	"author": {
 		"name": "Diamond/Musclesoft Crew"
@@ -16,7 +17,7 @@
 	"licenses": [
 	{
 		"type": "MIT",
-		"url": "http://opensource.org/licenses/MIT"
+		"url": "http://musclesoft.github.com/jquery-connections/LICENSE.txt"
 	}
 	],
 	"bugs": "https://github.com/musclesoft/jquery-connections/issues",
