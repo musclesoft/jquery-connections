@@ -123,14 +123,18 @@
 		var width = r - l;
 		var height = b - t;
 		if (width < border_w) {
-			r = l = (from.left + from.right + to.left + to.right) / 4 - border_w / 2;
 			t = Math.max(t, Math.min(from.bottom, to.bottom));
 			b = Math.min(b, Math.max(from.top, to.top));
+			l = Math.max(from.left, to.left);
+			r = Math.min(from.right, to.right);
+			r = l = (l + r - border_w) / 2;
 		}
 		if (height < border_h) {
-			b = t = (from.top + from.bottom + to.top + to.bottom) / 4 - border_h / 2;
 			l = Math.max(l, Math.min(from.right, to.right));
 			r = Math.min(r, Math.max(from.left, to.left));
+			t = Math.max(from.top, to.top);
+			b = Math.min(from.bottom, to.bottom);
+			b = t = (t + b - border_h) / 2;
 		}
 		width = r - l;
 		height = b - t;
