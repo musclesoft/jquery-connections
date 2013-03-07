@@ -87,52 +87,50 @@
 		var is_hidden = (0 === (c[0].clientWidth | c[0].clientHeight)) || (0 === (c[1].clientWidth | c[1].clientHeight));
 		var border_w = data.border_w;
 		var border_h = data.border_h;
-		var from = data.nodes.first();
-		var to = data.nodes.last();
-		var from_l = from.offset().left;
-		var to_l = to.offset().left;
-		var from_t = from.offset().top;
-		var to_t = to.offset().top;
-		var from_b = from_t + from.outerHeight();
-		var to_b = to_t + to.outerHeight();
-		var from_r = from_l + from.outerWidth();
-		var to_r = to_l + to.outerWidth();
-		var b = (from_b + from_t) / 2;
-		var t = (to_b + to_t) / 2;
-		var l = (from_l + from_r) / 2;
-		var r = (to_l + to_r) / 2;
+		var from_node = data.nodes.first();
+		var to_node = data.nodes.last();
+		var from = from_node.offset();
+		var to = to_node.offset();
+		from.bottom = from.top + from_node.outerHeight();
+		to.bottom = to.top + to_node.outerHeight();
+		from.right = from.left + from_node.outerWidth();
+		to.right = to.left + to_node.outerWidth();
+		var b = (from.bottom + from.top) / 2;
+		var t = (to.bottom + to.top) / 2;
+		var l = (from.left + from.right) / 2;
+		var r = (to.left + to.right) / 2;
 
 		var h = ['right', 'left'];
 		if (l > r) {
 			h = h.reverse();
-			var x = Math.max(r - border_w / 2, Math.min(from_r, to_r));
+			var x = Math.max(r - border_w / 2, Math.min(from.right, to.right));
 			r = l + border_w / 2;
 			l = x;
 		} else {
 			l -= border_w / 2;
-			r = Math.min(r + border_w / 2, Math.max(from_l, to_l));
+			r = Math.min(r + border_w / 2, Math.max(from.left, to.left));
 		}
 		var v = ['bottom', 'top'];
 		if (t > b) {
 			v = v.reverse();
-			var x = Math.max(b - border_h / 2, Math.min(from_b, to_b));
+			var x = Math.max(b - border_h / 2, Math.min(from.bottom, to.bottom));
 			b = t + border_h / 2;
 			t = x;
 		} else {
-			b = Math.min(b, Math.max(from_t, to_t));
+			b = Math.min(b, Math.max(from.top, to.top));
 			t -= border_h / 2;
 		}
 		var width = r - l;
 		var height = b - t;
 		if (width < border_w) {
-			r = l = (from_l + from_r + to_l + to_r) / 4 - border_w / 2;
-			t = Math.max(t, Math.min(from_b, to_b));
-			b = Math.min(b, Math.max(from_t, to_t));
+			r = l = (from.left + from.right + to.left + to.right) / 4 - border_w / 2;
+			t = Math.max(t, Math.min(from.bottom, to.bottom));
+			b = Math.min(b, Math.max(from.top, to.top));
 		}
 		if (height < border_h) {
-			b = t = (from_t + from_b + to_t + to_b) / 4 - border_h / 2;
-			l = Math.max(l, Math.min(from_r, to_r));
-			r = Math.min(r, Math.max(from_l, to_l));
+			b = t = (from.top + from.bottom + to.top + to.bottom) / 4 - border_h / 2;
+			l = Math.max(l, Math.min(from.right, to.right));
+			r = Math.min(r, Math.max(from.left, to.left));
 		}
 		width = r - l;
 		height = b - t;
