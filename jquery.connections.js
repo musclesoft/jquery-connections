@@ -41,7 +41,7 @@
 	var createConnection = function(container, node1, node2, tag, options) {
 		var css = $.extend({ position: 'absolute' }, options.css);
 		var connection = $('<' + tag + '/>', options).css(css);
-		connection.prependTo(container);
+		connection.appendTo(container);
 
 		var border_w = (connection.outerWidth() - connection.innerWidth()) / 2;
 		var border_h = (connection.outerHeight() - connection.innerHeight()) / 2;
@@ -87,16 +87,16 @@
 		var is_hidden = (0 === (c[0].clientWidth | c[0].clientHeight)) || (0 === (c[1].clientWidth | c[1].clientHeight));
 		var border_w = data.border_w;
 		var border_h = data.border_h;
-		var from = data.nodes.first().get(0);
-		var to = data.nodes.last().get(0);
-		var from_l = from.offsetLeft;
-		var to_l = to.offsetLeft;
-		var from_t = from.offsetTop;
-		var to_t = to.offsetTop;
-		var from_b = from_t + data.nodes.first().outerHeight();
-		var to_b = to_t + data.nodes.last().outerHeight();
-		var from_r = from_l + data.nodes.first().outerWidth();
-		var to_r = to_l + data.nodes.last().outerWidth();
+		var from = data.nodes.first();
+		var to = data.nodes.last();
+		var from_l = from.offset().left;
+		var to_l = to.offset().left;
+		var from_t = from.offset().top;
+		var to_t = to.offset().top;
+		var from_b = from_t + from.outerHeight();
+		var to_b = to_t + to.outerHeight();
+		var from_r = from_l + from.outerWidth();
+		var to_r = to_l + to.outerWidth();
 		var b = (from_b + from_t) / 2;
 		var t = (to_b + to_t) / 2;
 		var l = (from_l + from_r) / 2;
