@@ -3,7 +3,7 @@
 	html {
 		background-image:
 			-moz-linear-gradient(0deg, transparent 1px, #fff 1px),
-			-moz-linear-gradient(-90deg, #4c4 1px, #fff 1px);
+			-moz-linear-gradient(-90deg, #6c6 1px, #fff 1px);
 		background-size: 10px 10px;
 		background-position: 5px 5px;
 		font: 10px sans-serif;
@@ -16,10 +16,17 @@
 		border-spacing: 10px;
 	}
 	td {
-		width: 30px;
+		min-width: 30px;
 		height: 30px;
 		background: #ddd;
 		padding: 0;
+		vertical-align: top;
+	}
+	.box {
+		width: 30px;
+		height: 30px;
+		background: #eee;
+		position: absolute;
 	}
 	.testcase {
 		background: red;
@@ -30,15 +37,16 @@
 		margin: 2px 0 0 2px;
 		position: absolute;
 	}
-	.testcase:before {
+	[title]:before {
 		content: attr(title);
+		z-index: 1;
 		line-height: 1em;
 		clear: both;
 		display: inline-block;
-		width: 20px;
+		width: 29px;
 		position: absolute;
-		bottom: 9px;
-		left: 9px;
+		margin: 5px 0 0 5px;
+		opacity: 0.4;
 	}
 	connection {
 		border: 10px solid #bbb;
@@ -47,6 +55,9 @@
 	connection.fat {
 		border: 30px solid #bbb;
 	}
+	connection.red {
+		border-color: red;
+	}
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="../jquery.connections.js"></script>
@@ -54,39 +65,134 @@
 	$(document).ready(function() {
 		$('.l, .r').connections();
 		$('.t, .b').connections();
+		$('.behind').connections({css: {zIndex: -1}, 'class': 'red'});
+		$('.ring-l').connections({to: '.ring-b'});
+		$('.ring-b').connections({to: '.ring-r'});
+		$('.ring-r').connections({to: '.ring-t'});
+		$('.ring-t').connections({to: '.ring-l'});
 		$('.small').connections({to: '.large', 'class': 'fat'});
-		$('.center').connections({to: '.diagonal'});
+		$('.l.t').connections({to: '.basic .inner', 'class': 'red'});
+		$('td.contiguous').connections({to: '.contiguous.box', 'class': 'red'});
+		$('.bidi1').connections({to: '.bidi2'}).connections({from: '.bidi2'});
+		$('.full-center').connections({to: '.full'}).connections({from: '.full'});
+		$('.plumbing').connections({to: '.plumbing-center'});
+		$('.display-none').connections({'class': 'red'});
+		$('.relative .outer').connections({within: ':root'});
+		$('.relative .inner').connections({within: '.relative'});
+		$('.absolute .outer').connections({within: ':root'});
+		$('.absolute .inner').connections({within: '.absolute'});
+		$('.detached').detach().connections('update');
+		$('.removed').remove();
 	});
 </script>
-<table>
+<div class="inner box" style="top: 30px;left: 40px;width: 10px" title="inner"></div>
+<div class="inner box" style="top: 40px;left: 30px;height: 10px" title="inner"></div>
+<div class="contiguous box" style="top: 60px;left: 70px;height: 10px"></div>
+<div class="contiguous box" style="top: 100px;left: 70px;height: 10px"></div>
+<div class="contiguous box" style="top: 70px;left: 60px;width: 10px"></div>
+<div class="contiguous box" style="top: 70px;left: 100px;width: 10px"></div>
+<div class="box" style="top: 110px;left: 60px;width: 10px" title="negative z-index"></div>
+<div class="box" style="top: 110px;left: 100px;width: 10px"></div>
+<table class="basic">
 	<tr>
-		<td class="l t" />
+		<td class="l t"></td>
 		<td/>
 		<td class="r" />
-		<td class="diagonal" />
+		<td class="ring-t" />
 		<td/>
-		<td class="diagonal" />
+		<td class="full" />
+		<td/>
+		<td class="full" />
 		<td colspan="2" class="large" />
+		<td/>
+		<td class="bidi1" />
+		<td/>
+		<td class="plumbing" />
 	<tr>
 		<td/>
+		<td class="contiguous" title="contiguous" />
+		<td class="ring-l" />
 		<td/>
+		<td class="ring-r" />
 		<td/>
-		<td/>
-		<td class="center" />
+		<td class="full-center" />
 		<td/>
 		<td class="small" />
 		<td rowspan="2" class="large" />
+		<td class="bidi2" />
+		<td/>
+		<td>
+			<div class="plumbing-center" style="margin: 15px 0 0 15px;height: 0; width: 0"></div>
+		</td>
 	<tr>
-		<td class="b" />
+		<td class="b behind" />
+		<td/>
+		<td class="behind" />
+		<td class="ring-b" />
+		<td/>
+		<td class="full" />
+		<td/>
+		<td class="full" />
 		<td/>
 		<td/>
-		<td class="diagonal" />
-		<td/>
-		<td class="diagonal" />
+		<td class="plumbing" />
+	<tr>
+		<td class="display-none" style="display: none" />
+		<td title="parent display none">
+			<div class="box" style="display: none">
+				<div class="box display-none"></div>
+			</div>
+		</td>
+		<td title="re&shy;moved">
+			<div class="removed box display-none"></div>
+		</td>
+		<td title="de&shy;tached">
+			<div class="detached box display-none"></div>
+		</td>
+		<td class="display-none" title="dis&shy;play none"/>
 </table>
 <div class="testcase" style="left:60px;top:40px;width:40px" title="left to right"></div>
-<div class="testcase" style="left:40px;top:60px;height:40px" title="top to bottom"></div>
-<div class="testcase" style="left:270px;top:60px;width:20px" title="small bottom to large top"></div>
-<div class="testcase" style="left:300px;top:70px;height:20px" title="small left to large right"></div>
-<h1>jQuery Connections Test Matrix</h1>
+<div class="testcase" style="left:40px;top:60px;height:40px" title="top to bot&shy;tom"></div>
+<div class="testcase" style="left:350px;top:60px;width:20px" title="small bot&shy;tom to large top"></div>
+<div class="testcase" style="left:380px;top:70px;height:20px" title="small left to large right"></div>
+<div class="testcase" style="left:480px;top:80px" title="bidi"></div>
+<div class="testcase" style="left:440px;top:40px" title="bidi"></div>
+<div class="testcase" style="left:260px;top:40px"></div>
+<div class="testcase" style="left:300px;top:40px"></div>
+<div class="testcase" style="left:240px;top:60px"></div>
+<div class="testcase" style="left:280px;top:60px"></div>
+<div class="testcase" style="left:320px;top:60px"></div>
+<div class="testcase" style="left:260px;top:80px" title="full double set"></div>
+<div class="testcase" style="left:300px;top:80px"></div>
+<div class="testcase" style="left:240px;top:100px"></div>
+<div class="testcase" style="left:280px;top:100px"></div>
+<div class="testcase" style="left:320px;top:100px"></div>
+<div class="testcase" style="left:260px;top:120px"></div>
+<div class="testcase" style="left:300px;top:120px"></div>
+<div class="testcase" style="left:520px;top:60px;height:40px" title="plumbing anchor"></div>
+<div class="testcase" style="left:120px;top:40px" title="counter clock top left"></div>
+<div class="testcase" style="left:200px;top:40px" title="counter clock top right"></div>
+<div class="testcase" style="left:120px;top:120px" title="counter clock bottom left"></div>
+<div class="testcase" style="left:200px;top:120px" title="counter clock bottom right"></div>
+<div class="relative" style="position:relative;left:40px;top:-10px">
+	<table>
+		<tr>
+			<td class="outer" />
+			<td class="outer inner" />
+			<td class="inner" />
+	</table>
+	<div class="testcase" style="left:40px;top:20px" title="within root"></div>
+	<div class="testcase" style="left:80px;top:20px" title="within relative"></div>
+</div>
+<div class="absolute" style="position:absolute;left:180px;top:180px">
+	<table>
+		<tr>
+			<td class="outer" />
+			<td class="outer inner" />
+			<td class="inner" />
+	</table>
+	<div class="testcase" style="left:40px;top:20px" title="within root"></div>
+	<div class="testcase" style="left:80px;top:20px" title="within absolute"></div>
+</div>
+<h1>jQuery Connections Test Pattern</h1>
 red areas indicate failure

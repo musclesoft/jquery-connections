@@ -1,7 +1,9 @@
 (function($) {
 	$.fn.connections = function(options) {
 		if (options === 'update') {
-			return updateConnections(this);
+			return processConnections(update, this);
+		} else if (options === 'remove') {
+			return processConnections(destroy, this);
 		} else {
 			options = $.extend({
 				'class': 'connection',
@@ -15,6 +17,12 @@
 			return this;
 		}
 	};
+
+	$.event.special.connections = {
+		teardown: function(namespaces) {
+			processConnections(destroy, $(this));
+		}
+	}
 
 	var connect = function(options) {
 		var tag = options.tag;
@@ -32,13 +40,13 @@
 				var node = this;
 				done.push(this);
 				end2.not(done).each(function() {
-					createConnection(container, node, this, tag, options);
+					createConnection(container, [node, this], tag, options);
 				});
 			});
 		});
 	};
 
-	var createConnection = function(container, node1, node2, tag, options) {
+	var createConnection = function(container, nodes, tag, options) {
 		var css = $.extend({ position: 'absolute' }, options.css);
 		var connection = $('<' + tag + '/>', options).css(css);
 		connection.appendTo(container);
@@ -51,7 +59,7 @@
 		}
 
 		var data = {
-			nodes: $(node1).add(node2),
+			nodes: $(nodes),
 			border_w: border_w,
 			border_h: border_h,
 			css: css
@@ -62,14 +70,28 @@
 		}
 		$.data(connection.get(0), 'connection', data);
 		$.data(connection.get(0), 'connections', [connection.get(0)]);
-		$.data(node1, 'connections', connection.add($.data(node1, 'connections')).get());
-		$.data(node2, 'connections', connection.add($.data(node2, 'connections')).get());
+		for (var i = 0; i < 2; i++) {
+			var connections = connection.add($.data(nodes[i], 'connections')).get();
+			$.data(nodes[i], 'connections', connections);
+			if (connections.length == 1) {
+				$(nodes[i]).on('connections.connections', false);
+			}
+		}
 		update(connection.get(0));
+	};
+
+	var destroy = function(connection) {
+		var nodes = $.data(connection, 'connection').nodes.get();
+		for (var i = 0; i < 2; i++) {
+			var connections = $($.data(nodes[i], 'connections')).not(connection).get();
+			$.data(nodes[i], 'connections', connections);
+		}
+		$(connection).remove();
 	};
 
 	var update = function(connection) {
 		var data = $.data(connection, 'connection');
-		var c = [data.nodes.get(0), data.nodes.get(1)];
+		var c = data.nodes.get();
 		var cachesum = [
 			c[0].offsetTop,
 			c[0].offsetLeft,
@@ -84,7 +106,8 @@
 			return;
 		}
 		data.cachesum = cachesum;
-		var is_hidden = (0 === (c[0].clientWidth | c[0].clientHeight)) || (0 === (c[1].clientWidth | c[1].clientHeight));
+		var is_hidden = (0 === (c[0].offsetLeft | c[0].offsetTop | c[0].offsetWidth | c[0].offsetHeight)) ||
+				(0 === (c[1].offsetLeft | c[1].offsetTop | c[1].offsetWidth | c[1].offsetHeight));
 		var border_w = data.border_w;
 		var border_h = data.border_h;
 		var from_node = data.nodes.first();
@@ -99,6 +122,14 @@
 		var t = (to.bottom + to.top) / 2;
 		var l = (from.left + from.right) / 2;
 		var r = (to.left + to.right) / 2;
+		if (t > b ^ l < r) {
+			var x = t;
+			t = b;
+			b = x;
+			x = l;
+			l = r;
+			r = x;
+		}
 
 		var h = ['right', 'left'];
 		if (l > r) {
@@ -152,27 +183,26 @@
 			style += 'border-' + v[1] + '-' + h[1] + '-radius: 0;';
 		}
 		is_hidden && (style += 'display: none;');
-		var css = { left: l, top: t };
-		css['border-' + v[0] + '-width'] = 0;
-		css['border-' + h[0] + '-width'] = 0;
-		css['border-' + v[1] + '-width'] = border_h;
-		css['border-' + h[1] + '-width'] = border_w;
+		data.css['border-' + v[0] + '-width'] = 0;
+		data.css['border-' + h[0] + '-width'] = 0;
+		data.css['border-' + v[1] + '-width'] = border_h;
+		data.css['border-' + h[1] + '-width'] = border_w;
 		$(connection).
 				removeClass('connection-border-' + v[0] + ' connection-border-' + h[0]).
 				addClass('connection-border-' + v[1] + ' connection-border-' + h[1]).
 				attr('style', style).
 				css(data.css).
-				css(css).
+				offset({ left: l, top: t }).
 				width(width - border_w).
 				height(height - border_h);
 	}
 
-	var updateConnections = function(elements) {
+	var processConnections = function(method, elements) {
 		return elements.each(function() {
 			var connections = $.data(this, 'connections');
 			if (connections instanceof Array) {
 				for (var i = 0, len = connections.length; i < len; i++) {
-					update(connections[i]);
+					method(connections[i]);
 				}
 			}
 		});

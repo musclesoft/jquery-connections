@@ -1,7 +1,7 @@
 {
 	"name": "connections",
 	"title": "jQuery Connections",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"description": "Add stylable lines connecting page elements. Handy for visualizing relations and graph edges.",
 	"keywords": [
 		"border",
