@@ -122,14 +122,6 @@
 		var t = (to.bottom + to.top) / 2;
 		var l = (from.left + from.right) / 2;
 		var r = (to.left + to.right) / 2;
-		if (t > b ^ l < r) {
-			var x = t;
-			t = b;
-			b = x;
-			x = l;
-			l = r;
-			r = x;
-		}
 
 		var h = ['right', 'left'];
 		if (l > r) {

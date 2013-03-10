@@ -66,16 +66,14 @@
 		$('.l, .r').connections();
 		$('.t, .b').connections();
 		$('.behind').connections({css: {zIndex: -1}, 'class': 'red'});
-		$('.ring-l').connections({to: '.ring-b'});
-		$('.ring-b').connections({to: '.ring-r'});
-		$('.ring-r').connections({to: '.ring-t'});
-		$('.ring-t').connections({to: '.ring-l'});
+		$('.ring-l, .ring-r').connections({to: '.ring-b, .ring-t'});
 		$('.small').connections({to: '.large', 'class': 'fat'});
 		$('.l.t').connections({to: '.basic .inner', 'class': 'red'});
 		$('td.contiguous').connections({to: '.contiguous.box', 'class': 'red'});
 		$('.bidi1').connections({to: '.bidi2'}).connections({from: '.bidi2'});
 		$('.full-center').connections({to: '.full'}).connections({from: '.full'});
-		$('.plumbing').connections({to: '.plumbing-center'});
+		$('.s.plumbing-center').connections({to: '.s.plumbing'});
+		$('.u.plumbing-center').connections({to: '.u.plumbing'});
 		$('.display-none').connections({'class': 'red'});
 		$('.relative .outer').connections({within: ':root'});
 		$('.relative .inner').connections({within: '.relative'});
@@ -107,7 +105,7 @@
 		<td/>
 		<td class="bidi1" />
 		<td/>
-		<td class="plumbing" />
+		<td class="s u plumbing" />
 	<tr>
 		<td/>
 		<td class="contiguous" title="contiguous" />
@@ -122,7 +120,11 @@
 		<td class="bidi2" />
 		<td/>
 		<td>
-			<div class="plumbing-center" style="margin: 15px 0 0 15px;height: 0; width: 0"></div>
+			<div class="s plumbing-center" style="margin: 15px 0 0 15px;height: 0; width: 0"></div>
+		</td>
+		<td/>
+		<td>
+			<div class="u plumbing-center" style="margin: 15px 0 0 15px;height: 0; width: 0"></div>
 		</td>
 	<tr>
 		<td class="b behind" />
@@ -135,7 +137,8 @@
 		<td class="full" />
 		<td/>
 		<td/>
-		<td class="plumbing" />
+		<td class="s plumbing" />
+		<td class="u plumbing" />
 	<tr>
 		<td class="display-none" style="display: none" />
 		<td title="parent display none">
@@ -169,11 +172,12 @@
 <div class="testcase" style="left:320px;top:100px"></div>
 <div class="testcase" style="left:260px;top:120px"></div>
 <div class="testcase" style="left:300px;top:120px"></div>
-<div class="testcase" style="left:520px;top:60px;height:40px" title="plumbing anchor"></div>
-<div class="testcase" style="left:120px;top:40px" title="counter clock top left"></div>
-<div class="testcase" style="left:200px;top:40px" title="counter clock top right"></div>
-<div class="testcase" style="left:120px;top:120px" title="counter clock bottom left"></div>
-<div class="testcase" style="left:200px;top:120px" title="counter clock bottom right"></div>
+<div class="testcase" style="left:520px;top:60px;height:40px" title="s-plum&shy;bing anchor"></div>
+<div class="testcase" style="left:600px;top:60px;height:40px" title="u-plum&shy;bing anchor"></div>
+<div class="testcase" style="left:120px;top:40px" title="up then right"></div>
+<div class="testcase" style="left:200px;top:40px" title="up then left"></div>
+<div class="testcase" style="left:120px;top:120px" title="down then right"></div>
+<div class="testcase" style="left:200px;top:120px" title="down then left"></div>
 <div class="relative" style="position:relative;left:40px;top:-10px">
 	<table>
 		<tr>
