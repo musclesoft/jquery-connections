@@ -1,7 +1,7 @@
 {
 	"name": "connections",
 	"title": "jQuery Connections",
-	"version": "0.3.0",
+	"version": "0.4.0",
 	"description": "Add stylable lines connecting page elements. Handy for visualizing relations and graph edges.",
 	"keywords": [
 		"border",
@@ -22,6 +22,7 @@
 	],
 	"bugs": "https://github.com/musclesoft/jquery-connections/issues",
 	"demo": "http://musclesoft.github.com/jquery-connections/",
+	"docs": "https://github.com/musclesoft/jquery-connections/wiki",
 	"homepage": "https://github.com/musclesoft/jquery-connections",
 	"dependencies": {
 		"jquery": ">=1.9"

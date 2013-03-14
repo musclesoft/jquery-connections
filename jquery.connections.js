@@ -59,13 +59,15 @@
 		}
 
 		var data = {
-			nodes: $(nodes),
-			border_w: border_w,
 			border_h: border_h,
+			border_w: border_w,
+			node_from: $(nodes[0]),
+			node_to: $(nodes[1]),
+			nodes_dom: nodes,
 			css: css
 		}
 
-		if ('none' == connection.css('border-top-style')) {
+		if ('none' === connection.css('border-top-style')) {
 			data.css.borderStyle = 'solid';
 		}
 		$.data(connection.get(0), 'connection', data);
@@ -81,7 +83,7 @@
 	};
 
 	var destroy = function(connection) {
-		var nodes = $.data(connection, 'connection').nodes.get();
+		var nodes = $.data(connection, 'connection').nodes_dom;
 		for (var i = 0; i < 2; i++) {
 			var connections = $($.data(nodes[i], 'connections')).not(connection).get();
 			$.data(nodes[i], 'connections', connections);
@@ -89,39 +91,43 @@
 		$(connection).remove();
 	};
 
+	var getState = function(data) {
+		data.rect_from = data.nodes_dom[0].getBoundingClientRect();
+		data.rect_to = data.nodes_dom[1].getBoundingClientRect();
+		var cached = data.cache;
+		data.cache = [
+			data.rect_from.top, data.rect_from.right, data.rect_from.bottom, data.rect_from.left,
+			data.rect_to.top, data.rect_to.right, data.rect_to.bottom, data.rect_to.left
+		];
+		data.hidden = (0 === (data.cache[0] | data.cache[1] | data.cache[2] | data.cache[3])) ||
+					(0 === (data.cache[4] | data.cache[5] | data.cache[6] | data.cache[7]));
+		data.unmodified = true;
+		if (cached === undefined) {
+			return data.unmodified = false;
+		}
+		for (var i = 0; i < 8; i++) {
+			if (cached[i] !== data.cache[i]) {
+				return data.unmodified = false;
+			}
+		}
+	}
+
 	var update = function(connection) {
 		var data = $.data(connection, 'connection');
-		var c = data.nodes.get();
-		var cachesum = [
-			c[0].offsetTop,
-			c[0].offsetLeft,
-			c[0].clientWidth,
-			c[0].clientHeight,
-			c[1].offsetTop,
-			c[1].offsetLeft,
-			c[1].clientWidth,
-			c[1].clientHeight
-		].toString();
-		if (data.cachesum === cachesum) {
+		getState(data);
+		if (data.unmodified) {
 			return;
 		}
-		data.cachesum = cachesum;
-		var is_hidden = (0 === (c[0].offsetLeft | c[0].offsetTop | c[0].offsetWidth | c[0].offsetHeight)) ||
-				(0 === (c[1].offsetLeft | c[1].offsetTop | c[1].offsetWidth | c[1].offsetHeight));
-		var border_w = data.border_w;
 		var border_h = data.border_h;
-		var from_node = data.nodes.first();
-		var to_node = data.nodes.last();
-		var from = from_node.offset();
-		var to = to_node.offset();
-		from.bottom = from.top + from_node.outerHeight();
-		to.bottom = to.top + to_node.outerHeight();
-		from.right = from.left + from_node.outerWidth();
-		to.right = to.left + to_node.outerWidth();
+		var border_w = data.border_w;
+		var from_node = data.node_from;
+		var to_node = data.node_to;
+		var from = data.rect_from;
+		var to = data.rect_to;
 		var b = (from.bottom + from.top) / 2;
+		var r = (to.left + to.right) / 2;
 		var t = (to.bottom + to.top) / 2;
 		var l = (from.left + from.right) / 2;
-		var r = (to.left + to.right) / 2;
 
 		var h = ['right', 'left'];
 		if (l > r) {
@@ -161,32 +167,31 @@
 		}
 		width = r - l;
 		height = b - t;
-		if (width <= 0) {
-			border_h = 0;
-		}
-		if (height <= 0) {
-			border_w = 0;
-		}
+		width <= 0 && (border_h = 0);
+		height <= 0 && (border_w = 0);
 		var style =
 				'border-' + v[0] + '-' + h[0] + '-radius: 0;' +
 				'border-' + v[0] + '-' + h[1] + '-radius: 0;' +
 				'border-' + v[1] + '-' + h[0] + '-radius: 0;';
-		if (border_h <= 0 || border_w <= 0) {
-			style += 'border-' + v[1] + '-' + h[1] + '-radius: 0;';
+		(border_h <= 0 || border_w <= 0) && (style += 'border-' + v[1] + '-' + h[1] + '-radius: 0;');
+		if (data.hidden) {
+			style += 'display: none;';
+		} else {
+			data.css['border-' + v[0] + '-width'] = 0;
+			data.css['border-' + h[0] + '-width'] = 0;
+			data.css['border-' + v[1] + '-width'] = border_h;
+			data.css['border-' + h[1] + '-width'] = border_w;
+			var current_rect = connection.getBoundingClientRect();
+			data.css.left = connection.offsetLeft + l - current_rect.left;
+			data.css.top = connection.offsetTop + t - current_rect.top;
+			data.css.width = width - border_w;
+			data.css.height = height - border_h;
 		}
-		is_hidden && (style += 'display: none;');
-		data.css['border-' + v[0] + '-width'] = 0;
-		data.css['border-' + h[0] + '-width'] = 0;
-		data.css['border-' + v[1] + '-width'] = border_h;
-		data.css['border-' + h[1] + '-width'] = border_w;
 		$(connection).
-				removeClass('connection-border-' + v[0] + ' connection-border-' + h[0]).
 				addClass('connection-border-' + v[1] + ' connection-border-' + h[1]).
+				removeClass('connection-border-' + v[0] + ' connection-border-' + h[0]).
 				attr('style', style).
-				css(data.css).
-				offset({ left: l, top: t }).
-				width(width - border_w).
-				height(height - border_h);
+				css(data.css);
 	}
 
 	var processConnections = function(method, elements) {

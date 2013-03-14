@@ -28,7 +28,7 @@
 		background: #eee;
 		position: absolute;
 	}
-	.testcase {
+	div.testcase {
 		background: red;
 		border-radius: 3px;
 		width: 0px;
@@ -55,7 +55,7 @@
 	connection.fat {
 		border: 30px solid #bbb;
 	}
-	connection.red {
+	connection.testcase {
 		border-color: red;
 	}
 </style>
@@ -65,32 +65,56 @@
 	$(document).ready(function() {
 		$('.l, .r').connections();
 		$('.t, .b').connections();
-		$('.behind').connections({css: {zIndex: -1}, 'class': 'red'});
+		$('.behind').connections({css: {zIndex: -1}, 'class': 'testcase'});
 		$('.ring-l, .ring-r').connections({to: '.ring-b, .ring-t'});
 		$('.small').connections({to: '.large', 'class': 'fat'});
-		$('.l.t').connections({to: '.basic .inner', 'class': 'red'});
-		$('td.contiguous').connections({to: '.contiguous.box', 'class': 'red'});
+		$('.l.t').connections({to: '.basic .inner', 'class': 'testcase'});
+		$('td.contiguous').connections({to: '.contiguous.box', 'class': 'testcase'});
 		$('.bidi1').connections({to: '.bidi2'}).connections({from: '.bidi2'});
 		$('.full-center').connections({to: '.full'}).connections({from: '.full'});
 		$('.s.plumbing-center').connections({to: '.s.plumbing'});
 		$('.u.plumbing-center').connections({to: '.u.plumbing'});
-		$('.display-none').connections({'class': 'red'});
+		$('.display-none').connections({'class': 'testcase'});
 		$('.relative .outer').connections({within: ':root'});
 		$('.relative .inner').connections({within: '.relative'});
 		$('.absolute .outer').connections({within: ':root'});
 		$('.absolute .inner').connections({within: '.absolute'});
 		$('.detached').detach().connections('update');
+		$('.parent-moved .box').connections().parent().css('left', -40).children().connections('update');
 		$('.removed').remove();
 	});
+
+	var benchmark = function() {
+		var loops = 0, ms = 0;
+		var wiggle = 10;
+		var c = $('connection');
+		setInterval(function() {
+			var t;
+			var start = Date.now();
+			while ((t = Date.now() - start)  < 1000) {
+				wiggle = - wiggle;
+				$('table, .testcase, .success').each(function () {
+					$(this).offset({left: $(this).offset().left + wiggle});
+				});
+				for (var i = 0; i < 2; i++) {
+					ms -= Date.now();
+					c.connections('update');
+					ms += Math.max(1, Date.now());
+					loops++;
+				}
+			}
+			$('body').append(' ' + Math.round(loops * 1000 / ms) + '/s');
+		}, 2500);
+	}
 </script>
 <div class="inner box" style="top: 30px;left: 40px;width: 10px" title="inner"></div>
 <div class="inner box" style="top: 40px;left: 30px;height: 10px" title="inner"></div>
-<div class="contiguous box" style="top: 60px;left: 70px;height: 10px"></div>
-<div class="contiguous box" style="top: 100px;left: 70px;height: 10px"></div>
-<div class="contiguous box" style="top: 70px;left: 60px;width: 10px"></div>
-<div class="contiguous box" style="top: 70px;left: 100px;width: 10px"></div>
-<div class="box" style="top: 110px;left: 60px;width: 10px" title="negative z-index"></div>
-<div class="box" style="top: 110px;left: 100px;width: 10px"></div>
+<div class="contiguous success box" style="top: 60px;left: 70px;height: 10px"></div>
+<div class="contiguous success box" style="top: 100px;left: 70px;height: 10px"></div>
+<div class="contiguous success box" style="top: 70px;left: 60px;width: 10px"></div>
+<div class="contiguous success box" style="top: 70px;left: 100px;width: 10px"></div>
+<div class="success box" style="top: 110px;left: 60px;width: 10px" title="negative z-index"></div>
+<div class="success box" style="top: 110px;left: 100px;width: 10px"></div>
 <table class="basic">
 	<tr>
 		<td class="l t"></td>
@@ -153,6 +177,14 @@
 			<div class="detached box display-none"></div>
 		</td>
 		<td class="display-none" title="dis&shy;play none"/>
+		<td>
+			<div  style="position: relative" class="parent-moved box"><div class="box"></div></div>
+		</td>
+		<td>
+			<div  style="position: relative" class="parent-moved box"><div class="box"></div></div>
+		</td>
+		<td/>
+		<td/>
 </table>
 <div class="testcase" style="left:60px;top:40px;width:40px" title="left to right"></div>
 <div class="testcase" style="left:40px;top:60px;height:40px" title="top to bot&shy;tom"></div>
@@ -178,6 +210,7 @@
 <div class="testcase" style="left:200px;top:40px" title="up then left"></div>
 <div class="testcase" style="left:120px;top:120px" title="down then right"></div>
 <div class="testcase" style="left:200px;top:120px" title="down then left"></div>
+<div class="testcase" style="left:180px;top:160px" title="offset parent moved"></div>
 <div class="relative" style="position:relative;left:40px;top:-10px">
 	<table>
 		<tr>
@@ -199,4 +232,5 @@
 	<div class="testcase" style="left:80px;top:20px" title="within absolute"></div>
 </div>
 <h1>jQuery Connections Test Pattern</h1>
-red areas indicate failure
+<p>red areas indicate failure</p>
+<button onclick="benchmark();$(this).hide();">benchmark</button>

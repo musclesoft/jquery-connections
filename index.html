@@ -5,9 +5,9 @@
 <script src="jquery.connections.js"></script>
 <script>
 	$(document).ready(function() {
-		$('h1').connections({ to: 'div:first', 'class': 'first' });
+		$('h1 *').connections({ to: 'div:first', 'class': 'first' });
 		$('div.styles .anchor').connections({ to: 'div.styles li:nth-child(1)', within: '.styles', tag: 'inner', css: { zIndex: -1 } });
-		$('div.styles .anchor').connections({ to: 'div.styles li:nth-child(2)', within: '.styles', tag: 'inner', css: { color: '#500' } });
+		$('div.styles .anchor').connections({ to: 'div.styles li:nth-child(2)', within: '.styles', tag: 'inner', css: { color: '#d62' } });
 		$('div.styles .anchor').connections({ to: 'div.styles li:nth-child(3)', within: '.styles', tag: 'inner', css: { borderWidth: 0.5 } });
 		$('div.styles .anchor').connections({ to: 'div.styles li:nth-child(4)', within: '.styles', tag: 'inner', css: { borderRadius: 0 } });
 		$('div.styles .anchor').connections({ to: 'div.styles li:nth-child(5)', within: '.styles', tag: 'inner', css: { borderStyle: 'double' } });
@@ -25,9 +25,6 @@
 	* {
 		font-family: sans-serif;
 	}
-	h1 {
-		display: table;
-	}
 	p, div {
 		background: rgb(255, 255, 255);
 		background: rgba(255, 255, 255, 0.7);
@@ -40,7 +37,7 @@
 		border: 1px solid rgb(200, 200, 200);
 		border: 1px solid rgba(0, 0, 0, 0.2);
 		border-radius: 16px;
-		box-shadow: 5px 5px 5px rgba(0,0,0,0.2);
+		box-shadow: 2px 5px 5px rgba(0,0,0,0.2);
 	}
 	li, pre {
 		border-radius: 6px;
@@ -62,7 +59,7 @@
 	connection {
 		z-index: -1;
 		border: 3px solid;
-		border-radius: 15em;
+		border-radius: 7em;
 		color: rgb(128, 128, 128);
 		color: rgba(0, 0, 0, 0.5);
 	}
@@ -80,22 +77,21 @@
 	}
 	.anchor {
 		display: block;
-		width: 1px;
-		position: relative;
-		top: 0.2em;
-		left: 1em;
+		width: 0;
+		margin-top: 0.1em;
+		margin-left: 1em;
 	}
 	.more {
 		float: right;
 		font-weight: bold;
 	}
 	a {
-		color: #668!important;
+		color: #d62!important;
 	}
 </style>
-<h1>jQuery Connections</h1>
+<h1><span>jQuery Connections</span></h1>
 <div>
-	Adds lines between block elements using CSS borders.
+	Adds lines between page elements using CSS borders.
 	<pre>
 $('div.box').connections();</pre>
 </div>
