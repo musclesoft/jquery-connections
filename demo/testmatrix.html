@@ -14,6 +14,10 @@
 	}
 	table {
 		border-spacing: 10px;
+		margin-top: -10px;
+	}
+	table.first {
+		margin-top: 0;
 	}
 	td {
 		min-width: 30px;
@@ -55,7 +59,19 @@
 	connection.fat {
 		border: 30px solid #bbb;
 	}
-	connection.testcase {
+	connection.top.ok {
+		border-top-color: #bbb;
+	}
+	connection.right.ok {
+		border-right-color: #bbb;
+	}
+	connection.bottom.ok {
+		border-bottom-color: #bbb;
+	}
+	connection.left.ok {
+		border-left-color: #bbb;
+	}
+	connection.testcase, connection.testcase.fail {
 		border-color: red;
 	}
 </style>
@@ -82,6 +98,8 @@
 		$('.detached').detach().connections('update');
 		$('.parent-moved .box').connections().parent().css('left', -40).children().connections('update');
 		$('.removed').remove();
+		$('.bc.bottom.right').connections({from: '.bc.top.left', 'class': 'testcase', borderClasses: {top: 'fail', right: 'fail', bottom: 'bottom ok', left: 'left ok'}});
+		$('.bc.bottom.right').connections({to: '.bc.top.left', 'class': 'testcase', borderClasses: {top: 'top ok', right: 'right ok', bottom: 'fail', left: 'fail'}});
 	});
 
 	var benchmark = function() {
@@ -115,7 +133,7 @@
 <div class="contiguous success box" style="top: 70px;left: 100px;width: 10px"></div>
 <div class="success box" style="top: 110px;left: 60px;width: 10px" title="negative z-index"></div>
 <div class="success box" style="top: 110px;left: 100px;width: 10px"></div>
-<table class="basic">
+<table class="basic first">
 	<tr>
 		<td class="l t"></td>
 		<td/>
@@ -211,7 +229,7 @@
 <div class="testcase" style="left:120px;top:120px" title="down then right"></div>
 <div class="testcase" style="left:200px;top:120px" title="down then left"></div>
 <div class="testcase" style="left:180px;top:160px" title="offset parent moved"></div>
-<div class="relative" style="position:relative;left:40px;top:-10px">
+<div class="relative" style="position:relative;left:40px;top:0px">
 	<table>
 		<tr>
 			<td class="outer" />
@@ -221,16 +239,24 @@
 	<div class="testcase" style="left:40px;top:20px" title="within root"></div>
 	<div class="testcase" style="left:80px;top:20px" title="within relative"></div>
 </div>
-<div class="absolute" style="position:absolute;left:180px;top:180px">
+<div class="absolute" style="position:absolute;left:180px;top:190px">
 	<table>
 		<tr>
 			<td class="outer" />
 			<td class="outer inner" />
 			<td class="inner" />
 	</table>
-	<div class="testcase" style="left:40px;top:20px" title="within root"></div>
-	<div class="testcase" style="left:80px;top:20px" title="within absolute"></div>
+	<div class="testcase" style="left:40px;top:10px" title="within root"></div>
+	<div class="testcase" style="left:80px;top:10px" title="within absolute"></div>
 </div>
+<table>
+	<tr>
+		<td class="bc top left" title="border classes" />
+		<td class="bc top right" />
+	<tr>
+		<td class="bc bottom left" />
+		<td class="bc bottom right" />
+</table>
 <h1>jQuery Connections Test Pattern</h1>
 <p>red areas indicate failure</p>
 <button onclick="benchmark();$(this).hide();">benchmark</button>

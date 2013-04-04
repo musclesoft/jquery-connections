@@ -5,7 +5,8 @@
 		} else if (options === 'remove') {
 			return processConnections(destroy, this);
 		} else {
-			options = $.extend({
+			options = $.extend(true, {
+				borderClasses: {},
 				'class': 'connection',
 				css: {},
 				from: this,
@@ -25,10 +26,12 @@
 	}
 
 	var connect = function(options) {
+		var borderClasses = options.borderClasses;
 		var tag = options.tag;
 		var end1 = $(options.from);
 		var end2 = $(options.to);
 		var within = $(options.within);
+		delete options.borderClasses;
 		delete options.tag;
 		delete options.from;
 		delete options.to;
@@ -40,13 +43,13 @@
 				var node = this;
 				done.push(this);
 				end2.not(done).each(function() {
-					createConnection(container, [node, this], tag, options);
+					createConnection(container, [node, this], tag, borderClasses, options);
 				});
 			});
 		});
 	};
 
-	var createConnection = function(container, nodes, tag, options) {
+	var createConnection = function(container, nodes, tag, borderClasses, options) {
 		var css = $.extend({ position: 'absolute' }, options.css);
 		var connection = $('<' + tag + '/>', options).css(css);
 		connection.appendTo(container);
@@ -59,6 +62,7 @@
 		}
 
 		var data = {
+			borderClasses: borderClasses,
 			border_h: border_h,
 			border_w: border_w,
 			node_from: $(nodes[0]),
@@ -187,9 +191,10 @@
 			data.css.width = width - border_w;
 			data.css.height = height - border_h;
 		}
+		var bc = data.borderClasses;
 		$(connection).
-				addClass('connection-border-' + v[1] + ' connection-border-' + h[1]).
-				removeClass('connection-border-' + v[0] + ' connection-border-' + h[0]).
+				removeClass(bc[v[0]]).removeClass(bc[h[0]]).
+				addClass(bc[v[1]]).addClass(bc[h[1]]).
 				attr('style', style).
 				css(data.css);
 	}

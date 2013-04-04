@@ -10,88 +10,88 @@
 <script type="text/javascript" src="../jquery.connections.js"></script>
 <style>
 .draggable {
-		background: #deb; line-height: 40px; padding: 15px; float: left; margin: 1em; border: 1px dotted;
-		box-shadow: 2px 2px 4px rgba(0,0,0,0.5);}
+      background: #deb; line-height: 40px; padding: 15px; float: left; margin: 1em; border: 1px dotted;
+      box-shadow: 2px 2px 4px rgba(0,0,0,0.5);}
 </style>
 
-    <style>
-    .demo {
-    	border:5px double;
-    	z-index:2;
-    	display:table;
-    	border-radius:90px;
-    	/*pointer-events:none;*/
-    	color: rgb(200,200,200);
-    	color: rgba(0,0,0,0.7);
-    }
-    .demo:hover {
-    	color:#55f;
-    }
-    .demo2 {
-    	border:3px dotted #051;
-    	opacity: 0.5;
-    	z-index:1;
-    	border-radius:100%;
-    	pointer-events:none;
-    }
-    .fast {
-    	border:3px solid #051;
-    	opacity: 0.5;
-    	z-index:1;
-    	border-radius:100%;
-    	pointer-events:none;
-    }
-    .demo3 {
-    	border:7px dashed #951;
-    	opacity: 0.5;
-    	z-index:1;
-    	pointer-events:none;
-    	border-radius:21px;
-    }
-    .demo span {
-    	z-index: 1;
-    	background:black;
-    	color: white;
-    	opacity:0.7;
-    	position: absolute;
-    	display:block;
-    	margin: auto;
-    	padding: 0.3em 0.6em;
-    	border-radius:10px;
-    	box-shadow: 5px 5px 5px rgba(0,0,0,0.5);
-    }
-    .demo:hover span {
-    	background: #55f;
-    	opacity:1;
-    }
-    .connection-border-right span {
-    	left: 1em;
-    }
-    .connection-border-left span {
-    	right: 1em;
-    }
-    .connection-border-top span {
-    	top: 1em;
-    }
-    .connection-border-bottom span {
-    	bottom: 1em;
-    }
+      <style>
+      .demo {
+         border:5px double;
+         z-index:2;
+         display:table;
+         border-radius:90px;
+         /*pointer-events:none;*/
+         color: rgb(200,200,200);
+         color: rgba(0,0,0,0.7);
+      }
+      .demo:hover {
+         color:#55f;
+      }
+      .demo2 {
+         border:3px dotted #051;
+         opacity: 0.5;
+         z-index:1;
+         border-radius:100%;
+         pointer-events:none;
+      }
+      .fast {
+         border:3px solid #051;
+         opacity: 0.5;
+         z-index:1;
+         border-radius:100%;
+         pointer-events:none;
+      }
+      .demo3 {
+         border:7px dashed #951;
+         opacity: 0.5;
+         z-index:1;
+         pointer-events:none;
+         border-radius:21px;
+      }
+      .demo span {
+         z-index: 1;
+         background:black;
+         color: white;
+         opacity:0.7;
+         position: absolute;
+         display:block;
+         margin: auto;
+         padding: 0.3em 0.6em;
+         border-radius:10px;
+         box-shadow: 5px 5px 5px rgba(0,0,0,0.5);
+      }
+      .demo:hover span {
+         background: #55f;
+         opacity:1;
+      }
+      .connection-border-right span {
+         left: 1em;
+      }
+      .connection-border-left span {
+         right: 1em;
+      }
+      .connection-border-top span {
+         top: 1em;
+      }
+      .connection-border-bottom span {
+         bottom: 1em;
+      }
 </style>
 
 <script type="text/JavaScript">
-	$(document).ready(function() {
-		$( ".draggable" ).draggable();
-		$('#draggable2').connections({to: '.draggable', 'class': 'demo'});
-		$(".draggable").connections({'class': 'fast'});
-		$('.demo').html(function(i) { return '<span>Line&nbsp;' + (13 * i + 78) + '</span>' });
-		$('*').disableSelection();
-	/*	$('.draggable').on('drag', function() {
-			var node = $(this);
-			setTimeout(function() { node.connections('update') }, 0);
-		});*/
-
-		$.repeat().add('connection').each($).connections('update').wait(0);
-	});
+   $(document).ready(function() {
+      $( ".draggable" ).draggable();
+      $('#draggable2').connections({to: '.draggable', 'class': 'demo', borderClasses: {
+          top: 'connection-border-top',
+          right: 'connection-border-right',
+          bottom: 'connection-border-bottom',
+          left: 'connection-border-left'
+      }});
+      $(".draggable").connections({'class': 'fast'});
+      $('.demo').html(function(i) { return '<span>Line&nbsp;' + (13 * i + 78) + '</span>' });
+      $('*').disableSelection();
+      $.repeat().add('connection').each($).connections('update').wait(0);
+   });
 </script>
 
 </head>
