@@ -189,7 +189,7 @@
 			data.css.left = connection.offsetLeft + l - current_rect.left;
 			data.css.top = connection.offsetTop + t - current_rect.top;
 			data.css.width = width - border_w;
-			data.css.height = height - border_h;
+			data.css.height = height - border_h + border_w;
 		}
 		var bc = data.borderClasses;
 		$(connection).
