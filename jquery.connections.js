@@ -124,18 +124,16 @@
 		}
 		var border_h = data.border_h;
 		var border_w = data.border_w;
-		var from_node = data.node_from;
-		var to_node = data.node_to;
 		var from = data.rect_from;
 		var to = data.rect_to;
 		var b = (from.bottom + from.top) / 2;
 		var r = (to.left + to.right) / 2;
 		var t = (to.bottom + to.top) / 2;
-		var l = (from.left + from.right) / 2;
+    var l = (from.left + from.right) / 2;
 
 		var h = ['right', 'left'];
 		if (l > r) {
-			h = h.reverse();
+			h = ['left', 'right'];
 			var x = Math.max(r - border_w / 2, Math.min(from.right, to.right));
 			r = l + border_w / 2;
 			l = x;
@@ -145,7 +143,7 @@
 		}
 		var v = ['bottom', 'top'];
 		if (t > b) {
-			v = v.reverse();
+			v = ['top', 'bottom'];
 			var x = Math.max(b - border_h / 2, Math.min(from.bottom, to.bottom));
 			b = t + border_h / 2;
 			t = x;
@@ -191,7 +189,7 @@
 			data.css.width = width - border_w;
 			data.css.height = height - border_h;
 		}
-		var bc = data.borderClasses;
+    var bc = data.borderClasses;
 		$(connection).
 				removeClass(bc[v[0]]).removeClass(bc[h[0]]).
 				addClass(bc[v[1]]).addClass(bc[h[1]]).
