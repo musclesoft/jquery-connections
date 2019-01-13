@@ -1,5 +1,5 @@
-jQuery Connections
-==================
+# jQuery Connections
+
 A jQuery plugin for adding stylable connecting lines between block elements.
 
 ## Documentation

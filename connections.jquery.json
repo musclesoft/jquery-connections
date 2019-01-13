@@ -1,30 +1,23 @@
 {
-	"name": "connections",
-	"title": "jQuery Connections",
-	"version": "1.0.1",
-	"description": "Add stylable lines connecting page elements. Handy for visualizing relations and graph edges.",
-	"keywords": [
-		"border",
-		"connect",
-		"edge",
-		"graph",
-		"line",
-		"style"
-	],
-	"author": {
-		"name": "Diamond/Musclesoft Crew"
-	},
-	"licenses": [
-	{
-		"type": "MIT",
-		"url": "http://musclesoft.github.com/jquery-connections/LICENSE.txt"
-	}
-	],
-	"bugs": "https://github.com/musclesoft/jquery-connections/issues",
-	"demo": "http://musclesoft.github.com/jquery-connections/",
-	"docs": "https://github.com/musclesoft/jquery-connections/wiki",
-	"homepage": "https://github.com/musclesoft/jquery-connections",
-	"dependencies": {
-		"jquery": ">=1.9"
-	}
+  "name": "connections",
+  "title": "jQuery Connections",
+  "version": "1.0.1",
+  "description": "Add stylable lines connecting page elements. Handy for visualizing relations and graph edges.",
+  "keywords": ["border", "connect", "edge", "graph", "line", "style"],
+  "author": {
+    "name": "Diamond/Musclesoft Crew"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://musclesoft.github.com/jquery-connections/LICENSE.txt"
+    }
+  ],
+  "bugs": "https://github.com/musclesoft/jquery-connections/issues",
+  "demo": "http://musclesoft.github.com/jquery-connections/",
+  "docs": "https://github.com/musclesoft/jquery-connections/wiki",
+  "homepage": "https://github.com/musclesoft/jquery-connections",
+  "dependencies": {
+    "jquery": ">=1.9"
+  }
 }
