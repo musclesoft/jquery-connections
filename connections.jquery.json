@@ -10,11 +10,11 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "http://musclesoft.github.com/jquery-connections/LICENSE.txt"
+      "url": "https://musclesoft.github.com/jquery-connections/LICENSE.txt"
     }
   ],
   "bugs": "https://github.com/musclesoft/jquery-connections/issues",
-  "demo": "http://musclesoft.github.com/jquery-connections/",
+  "demo": "https://musclesoft.github.com/jquery-connections/",
   "docs": "https://github.com/musclesoft/jquery-connections/wiki",
   "homepage": "https://github.com/musclesoft/jquery-connections",
   "dependencies": {
