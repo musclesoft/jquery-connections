@@ -242,12 +242,11 @@
       var connections = $.data(this, "connections");
       if (connections instanceof Array) {
         for (var i = 0, len = connections.length; i < len; i++) {
-          if (matchClass && connections[i].classList.contains(matchClass)) {
-            method(connections[i]);
+          if (matchClass) {
+            if (connections[i].classList.contains(matchClass)) method(connections[i]);
             continue;
           }
           method(connections[i]);
-          
         }
       }
     });
