@@ -1,9 +1,9 @@
 (function($) {
-  $.fn.connections = function(options) {
+  $.fn.connections = function(options, matchClass) {
     if (options === "update") {
-      return processConnections(update, this);
+      return processConnections(update, this, matchClass);
     } else if (options === "remove") {
-      return processConnections(destroy, this);
+      return processConnections(destroy, this, matchClass);
     } else {
       options = $.extend(
         true,
@@ -237,12 +237,17 @@
       .css(data.css);
   };
 
-  var processConnections = function(method, elements) {
+  var processConnections = function(method, elements, matchClass) {
     return elements.each(function() {
       var connections = $.data(this, "connections");
       if (connections instanceof Array) {
         for (var i = 0, len = connections.length; i < len; i++) {
+          if (matchClass && connections[i].classList.contains(matchClass)) {
+            method(connections[i]);
+            continue;
+          }
           method(connections[i]);
+          
         }
       }
     });
